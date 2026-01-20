@@ -146,38 +146,44 @@ const Register = () => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-300 mb-2">Full Name</label>
               <input
+                id="name"
                 type="text"
                 name="name"
-                placeholder="Full Name"
+                placeholder="John Doe"
                 value={formData.name}
                 onChange={handleChange}
-                aria-label="Full Name"
+                autoComplete="name"
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
               />
             </div>
 
             <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
               <input
+                id="email"
                 type="email"
                 name="email"
-                placeholder="Email Address"
+                placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleChange}
-                aria-label="Email Address"
+                autoComplete="email"
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
               />
             </div>
 
             <div>
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-300 mb-2">Password</label>
               <div className="relative">
                 <input
+                  id="password"
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  placeholder="Password"
+                  placeholder="••••••••"
                   value={formData.password}
                   onChange={handleChange}
-                  aria-label="Password"
+                  autoComplete="new-password"
                   className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
                 />
                 <button
@@ -229,14 +235,16 @@ const Register = () => {
             </div>
 
             <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-300 mb-2">Confirm Password</label>
               <div className="relative">
                 <input
+                  id="confirmPassword"
                   type="password"
                   name="confirmPassword"
-                  placeholder="Confirm Password"
+                  placeholder="••••••••"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  aria-label="Confirm Password"
+                  autoComplete="new-password"
                   className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
                 />
               </div>

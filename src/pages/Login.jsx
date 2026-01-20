@@ -80,12 +80,14 @@ const Login = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
               <input
+                id="email"
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                autoComplete="email"
                 className="w-full px-4 py-3 border-2 border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition"
                 placeholder="you@example.com"
               />
@@ -94,17 +96,19 @@ const Login = () => {
             {/* Password */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-semibold text-gray-300">Password</label>
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-300">Password</label>
                 <Link to="#" className="text-xs text-blue-400 hover:text-blue-300 font-semibold">
                   Forgot?
                 </Link>
               </div>
               <div className="relative">
                 <input
+                  id="password"
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  autoComplete="current-password"
                   className="w-full px-4 py-3 border-2 border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition"
                   placeholder="••••••••"
                 />
