@@ -59,37 +59,29 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     const res = await authAPI.register({ name, email, password });
-    console.log('Full Register response data:', JSON.stringify(res.data, null, 2));
+    console.log('Full Register response:', JSON.stringify(res.data, null, 2));
     
-    // Try different response structures
-    let token, user;
+    // Extract token from various possible response structures
+    let token = null;
+    let user = null;
     
-    // Structure 1: { success: true, data: { token, user } }
     if (res.data?.data?.token) {
       token = res.data.data.token;
       user = res.data.data.user;
-    }
-    // Structure 2: { token, user } (direct)
-    else if (res.data?.token) {
-      token = res.data.token;
-      user = res.data.user;
-    }
-    // Structure 3: { success: true, token, user }
-    else if (res.data?.token && res.data?.user) {
+    } else if (res.data?.token) {
       token = res.data.token;
       user = res.data.user;
     }
     
-    console.log('Extracted token:', token ? 'Found' : 'NOT FOUND');
-    console.log('Extracted user:', user);
+    console.log('Token extracted:', token ? 'Success' : 'Not found in response');
     
-    if (!token) {
-      console.error('Complete response data:', res.data);
-      throw new Error(res.data?.message || 'Registration failed - no token received');
+    if (token) {
+      localStorage.setItem('token', token);
+      setUser(user || null);
     }
     
-    localStorage.setItem('token', token);
-    setUser(user);
+    // Registration success doesn't require token in localStorage
+    // User can login on next page
     return res.data;
   };
 
