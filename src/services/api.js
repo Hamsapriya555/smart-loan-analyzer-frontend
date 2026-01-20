@@ -28,16 +28,27 @@ API.interceptors.request.use(
 
 // Handle response errors
 API.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('API Success Response:', {
+      status: response.status,
+      url: response.config.url,
+      data: response.data,
+    });
+    return response;
+  },
   (error) => {
     if (error.response) {
       console.error('API Error Response:', {
         status: error.response.status,
+        url: error.config?.url,
         data: error.response.data,
         message: error.response.data?.message,
       });
     } else if (error.request) {
-      console.error('No response received:', error.request);
+      console.error('No response received:', {
+        url: error.config?.url,
+        message: error.message,
+      });
     } else {
       console.error('Error:', error.message);
     }
