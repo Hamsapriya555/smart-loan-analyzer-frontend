@@ -25,12 +25,13 @@ export const AuthProvider = ({ children }) => {
     const res = await authAPI.login({ email, password });
     console.log('Login response:', res.data);
     
-    // Handle response structure
-    const token = res.data.data?.token || res.data.token;
-    const user = res.data.data?.user || res.data.user;
+    // Backend returns: { success: true, data: { token, user } }
+    const token = res.data?.data?.token;
+    const user = res.data?.data?.user;
     
     if (!token) {
-      throw new Error(res.data.message || 'Login failed - no token received');
+      console.error('Token not found in response:', res.data);
+      throw new Error(res.data?.message || 'Login failed - no token received');
     }
     
     localStorage.setItem('token', token);
@@ -42,12 +43,13 @@ export const AuthProvider = ({ children }) => {
     const res = await authAPI.register({ name, email, password });
     console.log('Register response:', res.data);
     
-    // Handle response structure
-    const token = res.data.data?.token || res.data.token;
-    const user = res.data.data?.user || res.data.user;
+    // Backend returns: { success: true, data: { token, user } }
+    const token = res.data?.data?.token;
+    const user = res.data?.data?.user;
     
     if (!token) {
-      throw new Error(res.data.message || 'Registration failed - no token received');
+      console.error('Token not found in response:', res.data);
+      throw new Error(res.data?.message || 'Registration failed - no token received');
     }
     
     localStorage.setItem('token', token);
