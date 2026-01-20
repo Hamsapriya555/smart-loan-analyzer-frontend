@@ -63,6 +63,11 @@ export const authAPI = {
   me: () => API.get("/auth/me"),
 };
 
+// ================= HEALTH CHECK =================
+export const healthAPI = {
+  check: () => API.get("/health"),
+};
+
 // ================= DASHBOARD =================
 export const dashboardService = {
   getData: () => API.get("/dashboard"),

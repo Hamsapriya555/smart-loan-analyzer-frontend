@@ -33,6 +33,7 @@ const Login = () => {
         return;
       }
 
+      console.log('Attempting login with:', formData.email);
       await login(formData.email, formData.password);
       setSuccess('✓ Login successful! Redirecting...');
       setTimeout(() => navigate('/dashboard'), 1500);

@@ -22,39 +22,46 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await authAPI.login({ email, password });
-    console.log('Full Login response data:', JSON.stringify(res.data, null, 2));
-    
-    // Try different response structures
-    let token, user;
-    
-    // Structure 1: { success: true, data: { token, user } }
-    if (res.data?.data?.token) {
-      token = res.data.data.token;
-      user = res.data.data.user;
+    try {
+      const res = await authAPI.login({ email, password });
+      console.log('Login Response Status:', res.status);
+      console.log('Login Response Data:', JSON.stringify(res.data, null, 2));
+      
+      let token = null;
+      let user = null;
+      
+      // Extract token from response - handle multiple possible structures
+      if (res.data?.data?.token) {
+        token = res.data.data.token;
+        user = res.data.data.user;
+        console.log('✓ Token found in res.data.data.token');
+      } else if (res.data?.token) {
+        token = res.data.token;
+        user = res.data.user;
+        console.log('✓ Token found in res.data.token');
+      }
+      
+      console.log('Extracted Token:', token ? '✓ Found' : '✗ NOT FOUND');
+      console.log('Extracted User:', user);
+      
+      // If no token found, throw meaningful error
+      if (!token) {
+        const errorMsg = res.data?.message || 'Login failed - server did not return a token';
+        console.error('Token extraction failed:', errorMsg);
+        console.error('Full response:', res.data);
+        throw new Error(errorMsg);
+      }
+      
+      // Store token and user data
+      localStorage.setItem('token', token);
+      setUser(user || { email });
+      
+      console.log('✓ Login successful - token stored');
+      return res.data;
+    } catch (err) {
+      console.error('Login error caught:', err.message);
+      throw err;
     }
-    // Structure 2: { token, user } (direct)
-    else if (res.data?.token) {
-      token = res.data.token;
-      user = res.data.user;
-    }
-    // Structure 3: { success: true, token, user }
-    else if (res.data?.token && res.data?.user) {
-      token = res.data.token;
-      user = res.data.user;
-    }
-    
-    console.log('Extracted token:', token ? 'Found' : 'NOT FOUND');
-    console.log('Extracted user:', user);
-    
-    if (!token) {
-      console.error('Complete response data:', res.data);
-      throw new Error(res.data?.message || 'Login failed - no token received');
-    }
-    
-    localStorage.setItem('token', token);
-    setUser(user);
-    return res.data;
   };
 
   const register = async (name, email, password) => {
