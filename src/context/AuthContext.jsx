@@ -23,15 +23,35 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const res = await authAPI.login({ email, password });
-    localStorage.setItem('token', res.data.data.token);
-    setUser(res.data.data.user);
+    console.log('Login response:', res.data);
+    
+    // Handle response structure
+    const token = res.data.data?.token || res.data.token;
+    const user = res.data.data?.user || res.data.user;
+    
+    if (!token) {
+      throw new Error(res.data.message || 'Login failed - no token received');
+    }
+    
+    localStorage.setItem('token', token);
+    setUser(user);
     return res.data;
   };
 
   const register = async (name, email, password) => {
     const res = await authAPI.register({ name, email, password });
-    localStorage.setItem('token', res.data.data.token);
-    setUser(res.data.data.user);
+    console.log('Register response:', res.data);
+    
+    // Handle response structure
+    const token = res.data.data?.token || res.data.token;
+    const user = res.data.data?.user || res.data.user;
+    
+    if (!token) {
+      throw new Error(res.data.message || 'Registration failed - no token received');
+    }
+    
+    localStorage.setItem('token', token);
+    setUser(user);
     return res.data;
   };
 

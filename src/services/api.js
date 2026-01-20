@@ -26,6 +26,25 @@ API.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Handle response errors
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      console.error('API Error Response:', {
+        status: error.response.status,
+        data: error.response.data,
+        message: error.response.data?.message,
+      });
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+    } else {
+      console.error('Error:', error.message);
+    }
+    return Promise.reject(error);
+  }
+);
+
 // ================= AUTH =================
 export const authAPI = {
   register: (data) => API.post("/auth/register", data),
