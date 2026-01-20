@@ -23,14 +23,32 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const res = await authAPI.login({ email, password });
-    console.log('Login response:', res.data);
+    console.log('Full Login response data:', JSON.stringify(res.data, null, 2));
     
-    // Backend returns: { success: true, data: { token, user } }
-    const token = res.data?.data?.token;
-    const user = res.data?.data?.user;
+    // Try different response structures
+    let token, user;
+    
+    // Structure 1: { success: true, data: { token, user } }
+    if (res.data?.data?.token) {
+      token = res.data.data.token;
+      user = res.data.data.user;
+    }
+    // Structure 2: { token, user } (direct)
+    else if (res.data?.token) {
+      token = res.data.token;
+      user = res.data.user;
+    }
+    // Structure 3: { success: true, token, user }
+    else if (res.data?.token && res.data?.user) {
+      token = res.data.token;
+      user = res.data.user;
+    }
+    
+    console.log('Extracted token:', token ? 'Found' : 'NOT FOUND');
+    console.log('Extracted user:', user);
     
     if (!token) {
-      console.error('Token not found in response:', res.data);
+      console.error('Complete response data:', res.data);
       throw new Error(res.data?.message || 'Login failed - no token received');
     }
     
@@ -41,14 +59,32 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     const res = await authAPI.register({ name, email, password });
-    console.log('Register response:', res.data);
+    console.log('Full Register response data:', JSON.stringify(res.data, null, 2));
     
-    // Backend returns: { success: true, data: { token, user } }
-    const token = res.data?.data?.token;
-    const user = res.data?.data?.user;
+    // Try different response structures
+    let token, user;
+    
+    // Structure 1: { success: true, data: { token, user } }
+    if (res.data?.data?.token) {
+      token = res.data.data.token;
+      user = res.data.data.user;
+    }
+    // Structure 2: { token, user } (direct)
+    else if (res.data?.token) {
+      token = res.data.token;
+      user = res.data.user;
+    }
+    // Structure 3: { success: true, token, user }
+    else if (res.data?.token && res.data?.user) {
+      token = res.data.token;
+      user = res.data.user;
+    }
+    
+    console.log('Extracted token:', token ? 'Found' : 'NOT FOUND');
+    console.log('Extracted user:', user);
     
     if (!token) {
-      console.error('Token not found in response:', res.data);
+      console.error('Complete response data:', res.data);
       throw new Error(res.data?.message || 'Registration failed - no token received');
     }
     
